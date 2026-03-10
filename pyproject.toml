@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hss-pmt-pso"
+version = "0.1.0"
+description = "Scalable PSO calibration workflow for HSS parameters from PMT tests"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+hss-pmt-calibrate = "hss_pmt_pso.cli:main"
