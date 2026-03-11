@@ -21,6 +21,7 @@ class CalibrationSummary:
 def run_calibration(config: CalibrationConfig) -> CalibrationSummary:
     experimental = read_pmt_curve(config.experimental_csv)
     bounds = {b.name: (b.minimum, b.maximum) for b in config.parameter_bounds}
+    config.output_dir.mkdir(parents=True, exist_ok=True)
 
     runner = (
         CommandLinePlaxisRunner(config.command_template, config.output_dir)

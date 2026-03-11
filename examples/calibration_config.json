@@ -1,11 +1,27 @@
 {
-  "experimental_csv": "examples/pmt_sample.csv",
+  "experimental_csv": "pmt_sample.csv",
   "output_dir": "outputs/demo_run",
   "parameter_bounds": [
-    {"name": "E50ref", "min": 8000, "max": 60000},
-    {"name": "Eurref", "min": 24000, "max": 180000},
-    {"name": "m", "min": 0.3, "max": 1.2},
-    {"name": "pref", "min": 70, "max": 160}
+    {
+      "name": "E50ref",
+      "min": 8000,
+      "max": 60000
+    },
+    {
+      "name": "Eurref",
+      "min": 24000,
+      "max": 180000
+    },
+    {
+      "name": "m",
+      "min": 0.3,
+      "max": 1.2
+    },
+    {
+      "name": "pref",
+      "min": 70,
+      "max": 160
+    }
   ],
   "pso_particles": 20,
   "pso_iterations": 60,

@@ -30,14 +30,21 @@ class CommandLinePlaxisRunner(PlaxisRunner):
     def run(self, parameters: dict[str, float], experimental_curve: PMTCurve) -> SimulationResult:
         payload = json.dumps({"parameters": parameters, "n": len(experimental_curve.pressure)})
         cmd = self._command_template.format(payload=payload)
+
         completed = subprocess.run(
             cmd,
             shell=True,
             cwd=self._working_directory,
-            check=True,
+            check=False,
             text=True,
             capture_output=True,
         )
+        if completed.returncode != 0:
+            raise RuntimeError(
+                "PLAXIS command failed "
+                f"(code={completed.returncode}). stderr: {completed.stderr.strip()}"
+            )
+
         values = json.loads(completed.stdout)
         if not isinstance(values, list) or len(values) != len(experimental_curve.pressure):
             raise ValueError("PLAXIS command must return a json list matching PMT points count")

@@ -81,7 +81,7 @@ Use a JSON file (see `examples/calibration_config.json`).
 
 ```json
 {
-  "experimental_csv": "examples/pmt_sample.csv",
+  "experimental_csv": "pmt_sample.csv",
   "output_dir": "outputs/demo_run",
   "parameter_bounds": [
     {"name": "E50ref", "min": 8000, "max": 60000},
