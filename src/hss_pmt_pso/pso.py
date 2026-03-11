@@ -2,16 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor
-from collections.abc import Callable
-from typing import TypedDict
 import random
-
-
-class Particle(TypedDict):
-    position: dict[str, float]
-    velocity: dict[str, float]
-    best_position: dict[str, float]
-    best_score: float
 
 
 @dataclass(frozen=True)
@@ -23,7 +14,7 @@ class PSOResult:
 
 def optimize(
     *,
-    objective: Callable[[dict[str, float]], float],
+    objective,
     bounds: dict[str, tuple[float, float]],
     particles: int,
     iterations: int,
@@ -33,24 +24,15 @@ def optimize(
     seed: int,
     workers: int = 1,
 ) -> PSOResult:
-    if not bounds:
-        raise ValueError("bounds cannot be empty")
-    if particles < 2:
-        raise ValueError("particles must be >= 2")
-    if iterations < 1:
-        raise ValueError("iterations must be >= 1")
-    if workers < 1:
-        raise ValueError("workers must be >= 1")
-    for name, (lo, hi) in bounds.items():
-        if lo >= hi:
-            raise ValueError(f"invalid bound for {name!r}: min must be < max")
-
     rnd = random.Random(seed)
     names = tuple(bounds.keys())
 
-    swarm: list[Particle] = []
+    swarm = []
     for _ in range(particles):
-        position = {name: rnd.uniform(bounds[name][0], bounds[name][1]) for name in names}
+        position = {
+            name: rnd.uniform(bounds[name][0], bounds[name][1])
+            for name in names
+        }
         velocity = {name: 0.0 for name in names}
         swarm.append(
             {
@@ -65,7 +47,7 @@ def optimize(
     global_best_score = float("inf")
     history: list[float] = []
 
-    def score_particle(particle: Particle) -> float:
+    def score_particle(particle):
         return objective(particle["position"])
 
     for _ in range(iterations):
